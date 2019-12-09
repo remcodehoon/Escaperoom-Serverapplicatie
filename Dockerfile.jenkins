@@ -1,0 +1,11 @@
+FROM openjdk:11-jre
+
+VOLUME /log
+
+ARG JAR_FILE
+
+COPY target/${JAR_FILE} application.jar
+
+EXPOSE 9000
+
+CMD ["java", "-jar", "application.jar"]

@@ -1,0 +1,18 @@
+version: '3'
+services:
+  escaperoom-serverapplicatie:
+    build: .
+    image: stokperdje/escaperoom-serverapplicatie
+    networks:
+      - default
+      - escaperoom
+    ports:
+      - 8081:8081
+    container_name: escaperoom-serverapplicatie
+    restart: on-failure
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+networks:
+  escaperoom:
+    external: true
