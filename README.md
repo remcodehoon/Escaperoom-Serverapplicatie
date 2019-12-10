@@ -1,6 +1,6 @@
 # Escaperoom-Serverapplicatie
 
-## Table of contents
+## Inhoud
 * [Algemene informatie](#algemene-informatie)
 * [Technologieen](#technologieen)
 * [Setup](#setup)
@@ -8,7 +8,10 @@
 
 ## Algemene informatie
 Dit project is onderdeel van de escape room van Stichting Jeugdcarrousel ('t Stokperdje).
-Dit project is een centraal punt, van waaruit alle overige escape room componenten worden aangestuurd en uitgelezen.
+Dit project is een centraal punt van waaruit alle overige escape room componenten worden aangestuurd en uitgelezen.
+
+Ook is dit project het punt waarin alle informatie rondom een draaiende sessie wordt bijgehouden, denk hierbij aan praktische dingen, zoals de tijd, teamnaam, de gewonnen buit etc.
+Al deze dingen worden door middel van een websocket verbinding doorgepushed naar luisterende clients.
 	
 ## Technologieen
 Dit project is gebaseerd op:
@@ -17,6 +20,10 @@ Dit project is gebaseerd op:
 * Docker
 	
 ## Setup
+Dit project vereist een docker network "escaperoom". Als deze nog niet bestaat, maak deze dan aan met:
+```
+$ docker network create escaperoom
+```
 Om dit project te starten, build de image en run het met Docker:
 
 ```
