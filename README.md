@@ -1,22 +1,23 @@
 # Escaperoom-Serverapplicatie
 
 ## Table of contents
-* [General info](#general-info)
-* [Technologies](#technologies)
+* [Algemene informatie](#algemene-informatie)
+* [Technologieen](#technologieen)
 * [Setup](#setup)
 * [Websocket Message Broker](#websocket-message-broker)
 
-## General info
+## Algemene informatie
 Dit project is onderdeel van de escape room van Stichting Jeugdcarrousel ('t Stokperdje).
 Dit project is een centraal punt, van waaruit alle overige escape room componenten worden aangestuurd en uitgelezen.
 	
-## Technologies
-Project is created with:
+## Technologieen
+Dit project is gebaseerd op:
 * Java JDK: 11
 * Spring Boot Framework: 2.1.9
+* Docker
 	
 ## Setup
-To run this project, build image and run it with Docker using:
+Om dit project te starten, build de image en run het met Docker:
 
 ```
 $ docker-compose build
@@ -40,7 +41,10 @@ onderstaande topics.
     <tr>
         <td>Berichten</td>
         <td>/topic/berichten</td>
-        <td></td>
+        <td>
+            show: boolean<br>
+            message: string
+        </td>
     </tr>
     <tr>
         <td>Sessie</td>
@@ -50,7 +54,8 @@ onderstaande topics.
     <tr>
         <td>Tijd</td>
         <td>/topic/tijd</td>
-        <td></td>
+        <td>
+        </td>
     </tr>
     <tr>
         <td>Buit</td>
