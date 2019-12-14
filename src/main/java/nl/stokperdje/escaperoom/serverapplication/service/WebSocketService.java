@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import nl.stokperdje.escaperoom.serverapplication.domain.EscaperoomSessie;
 import nl.stokperdje.escaperoom.serverapplication.dto.Log;
 import nl.stokperdje.escaperoom.serverapplication.dto.Message;
-import nl.stokperdje.escaperoom.serverapplication.exceptions.NoActiveSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;

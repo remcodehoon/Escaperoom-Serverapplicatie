@@ -33,6 +33,11 @@ public class SessionService {
 
     private EscaperoomSessie session;
 
+
+    public SessionService() {
+
+    }
+
     public void createNewSession(String teamName) {
         if (this.tijdHelper != null) {
             this.tijdHelper.pauseTimer();
