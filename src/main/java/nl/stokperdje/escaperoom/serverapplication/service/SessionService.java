@@ -47,21 +47,23 @@ public class SessionService {
         tijdHelper = new TijdHelper(this, session, ws);
         barcodeHelper.reset();
 
-        // Verlichting uit zetten
-        String url1 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/uit";
-        restTemplate.getForEntity(url1, String.class);
-
-        // Knop LED uit zetten
-        String url2 = "http://192.168.2.223:8082/verlichting/knopled/aan";
-        restTemplate.getForEntity(url2, String.class);
-
-        // Lasers aan zetten
-        String url3 = "http://192.168.2.223:8082/lasers/aan";
-        restTemplate.getForEntity(url3, String.class);
-
         ws.sendMessage(this.session, new Message(false, ""));
         ws.log(this.session, "Nieuwe sessie: Teamnaam " + teamName);
         ws.broadcast(SESSION_TOPIC, this.session);
+
+        try {
+            // Verlichting uit zetten
+            String url1 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/uit";
+            restTemplate.getForEntity(url1, String.class);
+
+            // Knop LED uit zetten
+            String url2 = "http://192.168.2.223:8082/verlichting/knopled/aan";
+            restTemplate.getForEntity(url2, String.class);
+
+            // Lasers aan zetten
+            String url3 = "http://192.168.2.223:8082/lasers/aan";
+            restTemplate.getForEntity(url3, String.class);
+        } catch (Exception ignored) {}
     }
 
     public void startSession() {
@@ -106,13 +108,6 @@ public class SessionService {
             // Informatiescherm op de hoogte stellen, zodat filmpje afspeeld
             ws.broadcast(BUTTON_TOPIC, Status.on());
 
-            // Knop LED aanzetten
-            String url = "http://192.168.2.223:8082/verlichting/knopled/aan";
-            restTemplate.getForEntity(url, String.class);
-
-            // Slot openen
-            this.openSlot(false);
-
             // Tijd aanpassen indien minuten >= 7
             if (this.session.getHours() >= 0 && this.session.getMinutes() >=7) {
                 this.setTime(0, 7, 32);
@@ -120,9 +115,18 @@ public class SessionService {
 
             // Loggen
             ws.log(
-                this.session,
-                "Knop ingedrukt: De deur naar buiten is geopend en er kan nu gescand worden"
+                    this.session,
+                    "Knop ingedrukt: De deur naar buiten is geopend en er kan nu gescand worden"
             );
+
+            try {
+                // Knop LED aanzetten
+                String url = "http://192.168.2.223:8082/verlichting/knopled/aan";
+                restTemplate.getForEntity(url, String.class);
+            } catch (Exception ignored) {}
+
+            // Slot openen
+            this.openSlot(false);
         }
     }
 
@@ -134,15 +138,17 @@ public class SessionService {
             // Informatiescherm op de hoogte stellen, zodat filmpje afspeeld
             ws.broadcast(ALARM_TOPIC, Status.on());
 
-            // Lasers uit zetten
-            String url1 = "http://192.168.2.223:8082/lasers/uit";
-            restTemplate.getForEntity(url1, String.class);
-
             // Loggen
             ws.log(
-                this.session,
-                "Alarm uitgeschakeld"
+                    this.session,
+                    "Alarm uitgeschakeld"
             );
+
+            try {
+                // Lasers uit zetten
+                String url1 = "http://192.168.2.223:8082/lasers/uit";
+                restTemplate.getForEntity(url1, String.class);
+            } catch (Exception ignored) {}
         }
     }
 
@@ -208,9 +214,11 @@ public class SessionService {
         }
         ws.broadcast(PINSLOT_TOPIC, Status.open());
 
-        // Slot openen
-        String url1 = "http://192.168.2.223:8082/slot/open";
-        restTemplate.getForEntity(url1, String.class);
+        try {
+            // Slot openen
+            String url1 = "http://192.168.2.223:8082/slot/open";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
     }
 
     public void closeSlot() {
@@ -219,8 +227,10 @@ public class SessionService {
         }
         ws.broadcast(PINSLOT_TOPIC, Status.closed());
 
-        // Slot sluiten
-        String url1 = "http://192.168.2.223:8082/slot/dicht";
-        restTemplate.getForEntity(url1, String.class);
+        try {
+            // Slot sluiten
+            String url1 = "http://192.168.2.223:8082/slot/dicht";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
     }
 }
