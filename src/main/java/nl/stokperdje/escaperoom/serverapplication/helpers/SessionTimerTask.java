@@ -1,6 +1,7 @@
 package nl.stokperdje.escaperoom.serverapplication.helpers;
 
 import nl.stokperdje.escaperoom.serverapplication.domain.EscaperoomSessie;
+import nl.stokperdje.escaperoom.serverapplication.dto.Status;
 import nl.stokperdje.escaperoom.serverapplication.service.SessionService;
 import nl.stokperdje.escaperoom.serverapplication.service.WebSocketService;
 
@@ -33,6 +34,11 @@ public class SessionTimerTask extends TimerTask {
         int minutes = session.getMinutes();
         int seconds = session.getSeconds();
         session.countSecond();
+
+        // Wanneer 1 minuut (en 15 seconden ivm lengte filmpje) broadcast
+        if (hours == 0 && minutes == 1 && seconds == 15) {
+            ws.broadcast("lastminute", Status.on());
+        }
 
         if (hours >= 1 && minutes == 0 && seconds == 0) {
             sessionService.setTime(hours - 1, 59, 59);

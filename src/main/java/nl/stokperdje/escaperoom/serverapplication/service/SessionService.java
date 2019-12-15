@@ -14,7 +14,9 @@ import nl.stokperdje.escaperoom.serverapplication.helpers.BarcodeHelper;
 import nl.stokperdje.escaperoom.serverapplication.helpers.TijdHelper;
 import nl.stokperdje.escaperoom.serverapplication.statics.pinslot.TimeChangeType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class SessionService {
@@ -26,17 +28,15 @@ public class SessionService {
     private final String TIME_TOPIC = "tijd";
     private final String BUIT_TOPIC = "buit";
     private final String PINSLOT_TOPIC = "pinslot";
+    private final String BUTTON_TOPIC = "button";
+    private final String ALARM_TOPIC = "alarm";
 
     private Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private BarcodeHelper barcodeHelper = new BarcodeHelper();
     private TijdHelper tijdHelper;
+    private RestTemplate restTemplate = new RestTemplate();
 
     private EscaperoomSessie session;
-
-
-    public SessionService() {
-
-    }
 
     public void createNewSession(String teamName) {
         if (this.tijdHelper != null) {
@@ -46,6 +46,19 @@ public class SessionService {
         this.session = new EscaperoomSessie(teamName);
         tijdHelper = new TijdHelper(this, session, ws);
         barcodeHelper.reset();
+
+        // Verlichting uit zetten
+        String url1 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/uit";
+        restTemplate.getForEntity(url1, String.class);
+
+        // Knop LED uit zetten
+        String url2 = "http://192.168.2.223:8082/verlichting/knopled/aan";
+        restTemplate.getForEntity(url2, String.class);
+
+        // Lasers aan zetten
+        String url3 = "http://192.168.2.223:8082/lasers/aan";
+        restTemplate.getForEntity(url3, String.class);
+
         ws.sendMessage(this.session, new Message(false, ""));
         ws.log(this.session, "Nieuwe sessie: Teamnaam " + teamName);
         ws.broadcast(SESSION_TOPIC, this.session);
@@ -82,6 +95,55 @@ public class SessionService {
 
     public EscaperoomSessie getSession() {
         return this.session;
+    }
+
+    public void performPressButtonActions() {
+        if (this.session != null && this.session.isActive() && !session.isButtonPressed()) {
+            // Set isButtonPressed true, zodat gescand kan worden
+            this.session.pressButton();
+            ws.broadcast(SESSION_TOPIC, this.session);
+
+            // Informatiescherm op de hoogte stellen, zodat filmpje afspeeld
+            ws.broadcast(BUTTON_TOPIC, Status.on());
+
+            // Knop LED aanzetten
+            String url = "http://192.168.2.223:8082/verlichting/knopled/aan";
+            restTemplate.getForEntity(url, String.class);
+
+            // Slot openen
+            this.openSlot(false);
+
+            // Tijd aanpassen indien minuten >= 7
+            if (this.session.getHours() >= 0 && this.session.getMinutes() >=7) {
+                this.setTime(0, 7, 32);
+            }
+
+            // Loggen
+            ws.log(
+                this.session,
+                "Knop ingedrukt: De deur naar buiten is geopend en er kan nu gescand worden"
+            );
+        }
+    }
+
+    public void performAlarmCodeCorrectActions() {
+        if (this.session != null && this.session.isActive() && !session.isAlarmCodeCorrect()) {
+            this.session.setAlarmCodeCorrect();
+            ws.broadcast(SESSION_TOPIC, this.session);
+
+            // Informatiescherm op de hoogte stellen, zodat filmpje afspeeld
+            ws.broadcast(ALARM_TOPIC, Status.on());
+
+            // Lasers uit zetten
+            String url1 = "http://192.168.2.223:8082/lasers/uit";
+            restTemplate.getForEntity(url1, String.class);
+
+            // Loggen
+            ws.log(
+                this.session,
+                "Alarm uitgeschakeld"
+            );
+        }
     }
 
     public void scanCode(String code)
@@ -145,7 +207,10 @@ public class SessionService {
             }
         }
         ws.broadcast(PINSLOT_TOPIC, Status.open());
-        // Todo: Pinslot aansturen
+
+        // Slot openen
+        String url1 = "http://192.168.2.223:8082/slot/open";
+        restTemplate.getForEntity(url1, String.class);
     }
 
     public void closeSlot() {
@@ -153,6 +218,9 @@ public class SessionService {
             ws.log(this.session, "Slot gesloten door controlroom");
         }
         ws.broadcast(PINSLOT_TOPIC, Status.closed());
-        // Todo: Pinslot aansturen
+
+        // Slot sluiten
+        String url1 = "http://192.168.2.223:8082/slot/dicht";
+        restTemplate.getForEntity(url1, String.class);
     }
 }

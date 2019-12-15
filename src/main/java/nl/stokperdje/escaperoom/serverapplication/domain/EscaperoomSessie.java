@@ -23,6 +23,7 @@ public class EscaperoomSessie {
     @Expose private boolean isStopped = true;
 
     @Expose private boolean buttonPressed = false;
+    @Expose private boolean alarmCodeCorrect = false;
 
     @Expose private List<Log> logs = new ArrayList<>();
 
@@ -79,6 +80,12 @@ public class EscaperoomSessie {
     public boolean isButtonPressed() {
         return this.buttonPressed;
     }
+
+    public void pressButton() { this.buttonPressed = true; }
+
+    public boolean isAlarmCodeCorrect() { return this.alarmCodeCorrect; }
+
+    public void setAlarmCodeCorrect() { this.alarmCodeCorrect = true; };
 
     public void setActive(boolean active) {
         this.isActive = active;
