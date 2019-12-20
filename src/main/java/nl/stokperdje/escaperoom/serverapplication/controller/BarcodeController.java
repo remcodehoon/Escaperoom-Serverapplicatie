@@ -25,7 +25,7 @@ public class BarcodeController {
         try {
             sessionService.scanCode(code);
         } catch (Exception e) {
-            return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+            System.out.println(e);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
