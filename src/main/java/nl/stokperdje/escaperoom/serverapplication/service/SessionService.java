@@ -239,6 +239,22 @@ public class SessionService {
         } catch (Exception ignored) {}
     }
 
+    public void turnLasersOn() {
+        try {
+            // Lasers aan
+            String url1 = "http://192.168.2.223:8082/lasers/aan";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
+    public void turnLasersOff() {
+        try {
+            // Lasers aan
+            String url1 = "http://192.168.2.223:8082/lasers/uit";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
     public void closeSlot() {
         if (session != null) {
             ws.log(this.session, "Slot gesloten door controlroom");
