@@ -124,11 +124,12 @@ public class BarcodeHelper {
             if (session.isButtonPressed()) {
                 if (!scannedCodes.contains(barcode)) {
                     if (this.barcodeValues.containsKey(barcode)) {
-                        if (barcodeValues.get(barcode) == -9999) {
+                        if (barcodeValues.get(barcode) < 0) {
                             this.reset();
                             scannedCodes.add(barcode);
                             return 0;
                         } else {
+                            System.out.println("Scan: OK. Adding buit.");
                             scannedCodes.add(barcode);
                             return Integer.sum(session.getBuit(), barcodeValues.get(barcode));
                         }

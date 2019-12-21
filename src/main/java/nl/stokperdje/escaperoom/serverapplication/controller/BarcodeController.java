@@ -23,6 +23,7 @@ public class BarcodeController {
     @GetMapping("/scan/{code}")
     public ResponseEntity scanCode(@PathVariable String code) {
         try {
+            System.out.println("Scanning: " + code);
             sessionService.scanCode(code);
         } catch (Exception e) {
             System.out.println(e);

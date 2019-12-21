@@ -108,16 +108,16 @@ public class SessionService {
             // Informatiescherm op de hoogte stellen, zodat filmpje afspeeld
             ws.broadcast(BUTTON_TOPIC, Status.on());
 
-            // Tijd aanpassen indien minuten >= 7
-            if (this.session.getHours() >= 0 && this.session.getMinutes() >=7) {
-                this.setTime(0, 7, 32);
-            }
-
             // Loggen
             ws.log(
                     this.session,
                     "Knop ingedrukt: De deur naar buiten is geopend en er kan nu gescand worden"
             );
+
+            // Tijd aanpassen indien minuten >= 7
+            if (this.session.getHours() >= 0 && this.session.getMinutes() >=7) {
+                this.setTime(0, 7, 32);
+            }
 
             try {
                 // Knop LED aanzetten
@@ -161,12 +161,13 @@ public class SessionService {
     {
         if (this.session != null && this.session.isActive()) {
             Buit totaleBuit = new Buit(barcodeHelper.scanCode(code, this.session));
+            System.out.println(gson.toJson(totaleBuit));
             ws.log(
                     this.session,
                     "Barcode gescand: Buit gewijzigd van " + session.getBuit() + " naar " + totaleBuit.getTotaleBuit()
             );
             session.setBuit(totaleBuit.getTotaleBuit());
-            ws.broadcast(BUIT_TOPIC, gson.toJson(totaleBuit));
+            ws.broadcast(BUIT_TOPIC, totaleBuit);
         }
     }
 
