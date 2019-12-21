@@ -57,7 +57,7 @@ public class SessionService {
             restTemplate.getForEntity(url1, String.class);
 
             // Knop LED uit zetten
-            String url2 = "http://192.168.2.223:8082/verlichting/knopled/aan";
+            String url2 = "http://192.168.2.223:8082/verlichting/knopled/uit";
             restTemplate.getForEntity(url2, String.class);
 
             // Lasers aan zetten
