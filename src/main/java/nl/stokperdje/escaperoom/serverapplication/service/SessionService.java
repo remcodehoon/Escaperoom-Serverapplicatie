@@ -50,6 +50,7 @@ public class SessionService {
         ws.sendMessage(this.session, new Message(false, ""));
         ws.log(this.session, "Nieuwe sessie: Teamnaam " + teamName);
         ws.broadcast(SESSION_TOPIC, this.session);
+        ws.broadcast(BUIT_TOPIC, new Buit(0));
 
         try {
             // Verlichting uit zetten
