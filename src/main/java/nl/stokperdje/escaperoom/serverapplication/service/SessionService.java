@@ -135,11 +135,13 @@ public class SessionService {
     }
 
     public void performLaserCrossedActions() {
-        ws.log(this.session, "Laser onderbroken");
-        tijdHelper.changeTime(new TimeChange(TimeChangeType.MINUS, 0, 1, 0));
-        if (!this.session.isLasersCrossed()) {
-            this.session.crossLasers();
-            ws.broadcast(SENSOR_TOPIC, Status.on());
+        if (this.session != null && session.isActive() && !this.session.isAlarmCodeCorrect()) {
+            ws.log(this.session, "Laser onderbroken");
+            tijdHelper.changeTime(new TimeChange(TimeChangeType.MINUS, 0, 1, 0));
+            if (!this.session.isLasersCrossed()) {
+                this.session.crossLasers();
+                ws.broadcast(SENSOR_TOPIC, Status.on());
+            }
         }
     }
 
