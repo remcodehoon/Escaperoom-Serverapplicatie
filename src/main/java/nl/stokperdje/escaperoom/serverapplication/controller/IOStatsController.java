@@ -40,9 +40,9 @@ public class IOStatsController {
             service.performAlarmCodeCorrectActions();
         }
 
-        if (ioStats.isSensor1()) {
-            service.performLaserCrossedActions();
-        }
+//        if (ioStats.isSensor1()) {
+//            service.performLaserCrossedActions();
+//        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
