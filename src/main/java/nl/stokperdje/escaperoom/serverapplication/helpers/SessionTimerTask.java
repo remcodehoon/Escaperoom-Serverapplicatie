@@ -4,6 +4,7 @@ import nl.stokperdje.escaperoom.serverapplication.domain.EscaperoomSessie;
 import nl.stokperdje.escaperoom.serverapplication.dto.Status;
 import nl.stokperdje.escaperoom.serverapplication.service.SessionService;
 import nl.stokperdje.escaperoom.serverapplication.service.WebSocketService;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.TimerTask;
 
@@ -14,6 +15,7 @@ public class SessionTimerTask extends TimerTask {
     private WebSocketService ws;
     private boolean isStarted;
     private boolean isCancelled = false;
+    private RestTemplate restTemplate = new RestTemplate();
 
     public SessionTimerTask(SessionService sessionService, EscaperoomSessie session, WebSocketService ws) {
         super();
@@ -47,11 +49,18 @@ public class SessionTimerTask extends TimerTask {
         } else if (seconds > 0) {
             sessionService.setTime(hours, minutes, seconds - 1);
         } else {
-            ws.log(this.session, "Tijd voorbij! Sessie beeïndigd.");
-            sessionService.setActive(false);
-            sessionService.setStopped(true);
-            ws.broadcast("sessie", this.session);
+            sessionService.stopSession();
             this.cancel();
+        }
+
+        if (seconds % 10 == 0 && !session.isAlarmCodeCorrect()) {
+            // Rook togglen
+            try {
+                String url = "http://192.168.2.223:8082/rook/toggle";
+                restTemplate.getForEntity(url, String.class);
+            } catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

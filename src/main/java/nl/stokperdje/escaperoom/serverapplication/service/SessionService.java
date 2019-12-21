@@ -14,7 +14,6 @@ import nl.stokperdje.escaperoom.serverapplication.helpers.BarcodeHelper;
 import nl.stokperdje.escaperoom.serverapplication.helpers.TijdHelper;
 import nl.stokperdje.escaperoom.serverapplication.statics.pinslot.TimeChangeType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +29,7 @@ public class SessionService {
     private final String PINSLOT_TOPIC = "pinslot";
     private final String BUTTON_TOPIC = "button";
     private final String ALARM_TOPIC = "alarm";
+    private final String SENSOR_TOPIC = "sensor";
 
     private Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private BarcodeHelper barcodeHelper = new BarcodeHelper();
@@ -63,6 +63,10 @@ public class SessionService {
             // Lasers aan zetten
             String url3 = "http://192.168.2.223:8082/lasers/aan";
             restTemplate.getForEntity(url3, String.class);
+
+            // Lasers aan zetten
+            String url4 = "http://192.168.2.223:8082/rook/aan";
+            restTemplate.getForEntity(url4, String.class);
         } catch (Exception ignored) {}
     }
 
@@ -74,11 +78,11 @@ public class SessionService {
     }
 
     public void stopSession() {
-        ws.log(this.session, "Sessie beeïndigd.");
-        this.tijdHelper.pauseTimer();
         this.setActive(false);
         this.setStopped(true);
+        ws.log(this.session, "Sessie beeïndigd.");
         ws.broadcast(SESSION_TOPIC, this.session);
+        this.tijdHelper.pauseTimer();
     }
 
     public void startTimer() {
@@ -127,6 +131,15 @@ public class SessionService {
 
             // Slot openen
             this.openSlot(false);
+        }
+    }
+
+    public void performLaserCrossedActions() {
+        ws.log(this.session, "Laser onderbroken");
+        tijdHelper.changeTime(new TimeChange(TimeChangeType.MINUS, 0, 1, 0));
+        if (!this.session.isLasersCrossed()) {
+            this.session.crossLasers();
+            ws.broadcast(SENSOR_TOPIC, Status.on());
         }
     }
 

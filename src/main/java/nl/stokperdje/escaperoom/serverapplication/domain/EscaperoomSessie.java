@@ -27,6 +27,8 @@ public class EscaperoomSessie {
 
     @Expose private List<Log> logs = new ArrayList<>();
 
+    private boolean lasersCrossed = false;
+
     public EscaperoomSessie(String teamName) {
         this.teamName = teamName;
     }
@@ -109,5 +111,13 @@ public class EscaperoomSessie {
 
     public void addLog(Log log) {
         this.logs.add(0, log);
+    }
+
+    public boolean isLasersCrossed() {
+        return this.lasersCrossed;
+    }
+
+    public void crossLasers() {
+        this.lasersCrossed = true;
     }
 }
