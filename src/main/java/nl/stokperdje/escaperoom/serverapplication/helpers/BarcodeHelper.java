@@ -107,6 +107,28 @@ public class BarcodeHelper {
         barcodeValues.put("C74", 4200);
         barcodeValues.put("C75", 7300);
         barcodeValues.put("C76", 8500);
+
+        barcodeValues.put("C77", 630);
+        barcodeValues.put("C78", 480);
+        barcodeValues.put("C79", 340);
+        barcodeValues.put("C80", 570);
+        barcodeValues.put("C81", 220);
+        barcodeValues.put("C82", 370);
+        barcodeValues.put("C83", 420);
+        barcodeValues.put("C84", 180);
+        barcodeValues.put("C85", 430);
+        barcodeValues.put("C86", 260);
+        barcodeValues.put("C87", 240);
+        barcodeValues.put("C88", 590);
+        barcodeValues.put("C89", 260);
+        barcodeValues.put("C90", 310);
+
+        barcodeValues.put("C91", 1750);
+        barcodeValues.put("C92", 5300);
+        barcodeValues.put("C93", 4600);
+        barcodeValues.put("C94", 6300);
+        barcodeValues.put("C95", 9750);
+        barcodeValues.put("C96", 45000);
     }
 
     /**
