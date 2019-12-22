@@ -41,6 +41,13 @@ public class SessionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/stop")
+    public ResponseEntity stopSession() {
+        System.out.println("Session Stopped!");
+        sessionService.stopSession();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value = "/timechange")
     public ResponseEntity timechange() {
         TimeChange change = new TimeChange(TimeChangeType.SET, 0, 50, 20);

@@ -281,6 +281,41 @@ public class SessionService {
         } catch (Exception ignored) {}
     }
 
+    public void turnLightsOn() {
+        try {
+            String url1 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/aan";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
+    public void turnLightsOff() {
+        try {
+            String url1 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/uit";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
+    public void turnRookOn() {
+        try {
+            String url1 = "http://192.168.2.223:8082/rook/aan";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
+    public void turnRookOff() {
+        try {
+            String url1 = "http://192.168.2.223:8082/rook/uit";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
+    public void toggleRook() {
+        try {
+            String url1 = "http://192.168.2.223:8082/rook/toggle";
+            restTemplate.getForEntity(url1, String.class);
+        } catch (Exception ignored) {}
+    }
+
     public void closeSlot() {
         if (session != null) {
             ws.log(this.session, "Slot gesloten door controlroom");
