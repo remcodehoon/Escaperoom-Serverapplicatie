@@ -51,6 +51,7 @@ public class SessionService {
         ws.log(this.session, "Nieuwe sessie: Teamnaam " + teamName);
         ws.broadcast(SESSION_TOPIC, this.session);
         ws.broadcast(BUIT_TOPIC, new Buit(0));
+        ws.broadcast(TIME_TOPIC, new TimeChange(TimeChangeType.SET, 1, 0, 0));
 
         try {
             // Verlichting uit zetten
@@ -84,6 +85,24 @@ public class SessionService {
         ws.log(this.session, "Sessie beeïndigd.");
         ws.broadcast(SESSION_TOPIC, this.session);
         this.tijdHelper.pauseTimer();
+
+        try {
+            // Verlichting uit zetten
+            String url1 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/uit";
+            restTemplate.getForEntity(url1, String.class);
+
+            // Knop LED uit zetten
+            String url2 = "http://192.168.2.223:8082/verlichting/knopled/uit";
+            restTemplate.getForEntity(url2, String.class);
+
+            // Lasers uit zetten
+            String url3 = "http://192.168.2.223:8082/lasers/uit";
+            restTemplate.getForEntity(url3, String.class);
+
+            // Rook uit zetten
+            String url4 = "http://192.168.2.223:8082/rook/uit";
+            restTemplate.getForEntity(url4, String.class);
+        } catch (Exception ignored) {}
     }
 
     public void startTimer() {
