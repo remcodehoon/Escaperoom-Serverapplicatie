@@ -128,7 +128,7 @@ public class BarcodeHelper {
         barcodeValues.put("C93", 4600);
         barcodeValues.put("C94", 6300);
         barcodeValues.put("C95", 9750);
-        barcodeValues.put("C96", 45000);
+        barcodeValues.put("C96", 50000);
     }
 
     /**
