@@ -62,13 +62,13 @@ public class SessionService {
             String url2 = "http://192.168.2.223:8082/verlichting/knopled/uit";
             restTemplate.getForEntity(url2, String.class);
 
-            // Lasers aan zetten
-            String url3 = "http://192.168.2.223:8082/lasers/aan";
-            restTemplate.getForEntity(url3, String.class);
-
-            // Lasers aan zetten
-            String url4 = "http://192.168.2.223:8082/rook/aan";
-            restTemplate.getForEntity(url4, String.class);
+//            // Lasers aan zetten
+//            String url3 = "http://192.168.2.223:8082/lasers/aan";
+//            restTemplate.getForEntity(url3, String.class);
+//
+//            // Rook aan zetten
+//            String url4 = "http://192.168.2.223:8082/rook/aan";
+//            restTemplate.getForEntity(url4, String.class);
         } catch (Exception ignored) {}
     }
 
