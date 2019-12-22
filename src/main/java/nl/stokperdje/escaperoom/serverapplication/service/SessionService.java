@@ -168,6 +168,10 @@ public class SessionService {
                 // Verlichting aan zetten
                 String url2 = "http://192.168.2.223:8082/verlichting/hoofdverlichting/aan";
                 restTemplate.getForEntity(url2, String.class);
+
+                // Rook uit zetten
+                String url3 = "http://192.168.2.223:8082/rook/uit";
+                restTemplate.getForEntity(url3, String.class);
             } catch (Exception ignored) {}
         }
     }

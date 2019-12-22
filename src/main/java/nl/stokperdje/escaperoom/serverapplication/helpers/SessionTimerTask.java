@@ -53,7 +53,7 @@ public class SessionTimerTask extends TimerTask {
             this.cancel();
         }
 
-        if (seconds % 10 == 0 && !session.isAlarmCodeCorrect()) {
+        if (seconds % 15 == 0 && !session.isAlarmCodeCorrect()) {
             // Rook togglen
             try {
                 String url = "http://192.168.2.223:8082/rook/toggle";
