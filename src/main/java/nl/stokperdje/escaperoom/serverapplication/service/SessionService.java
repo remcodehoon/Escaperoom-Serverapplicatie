@@ -102,6 +102,10 @@ public class SessionService {
             // Rook uit zetten
             String url4 = "http://192.168.2.223:8082/rook/uit";
             restTemplate.getForEntity(url4, String.class);
+
+            // Slot openen
+            String url5 = "http://192.168.2.223:8082/slot/open";
+            restTemplate.getForEntity(url5, String.class);
         } catch (Exception ignored) {}
     }
 
