@@ -259,8 +259,11 @@ public class SessionService {
             } else {
                 ws.log(this.session, "Slot geopend door spelers");
             }
+
+            if (session.isActive()) {
+                ws.broadcast(PINSLOT_TOPIC, Status.open());
+            }
         }
-        ws.broadcast(PINSLOT_TOPIC, Status.open());
 
         try {
             // Slot openen
@@ -323,8 +326,11 @@ public class SessionService {
     public void closeSlot() {
         if (session != null) {
             ws.log(this.session, "Slot gesloten door controlroom");
+
+            if (session.isActive()) {
+                ws.broadcast(PINSLOT_TOPIC, Status.closed());
+            }
         }
-        ws.broadcast(PINSLOT_TOPIC, Status.closed());
 
         try {
             // Slot sluiten

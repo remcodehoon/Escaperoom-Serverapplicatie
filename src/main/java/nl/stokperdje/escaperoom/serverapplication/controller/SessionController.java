@@ -54,4 +54,10 @@ public class SessionController {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         return new ResponseEntity<>(gson.toJson(change), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/drukknop")
+    public ResponseEntity pressButton() {
+        sessionService.performPressButtonActions();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
