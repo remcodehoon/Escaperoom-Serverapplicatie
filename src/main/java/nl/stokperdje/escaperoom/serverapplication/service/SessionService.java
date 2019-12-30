@@ -30,6 +30,7 @@ public class SessionService {
     private final String BUTTON_TOPIC = "button";
     private final String ALARM_TOPIC = "alarm";
     private final String SENSOR_TOPIC = "sensor";
+    private final String ALARMSOUND_TOPIC = "alarmsound";
 
     private Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private BarcodeHelper barcodeHelper = new BarcodeHelper();
@@ -197,6 +198,7 @@ public class SessionService {
                 restTemplate.getForEntity(url3, String.class);
             } catch (Exception ignored) {}
         }
+        ws.broadcast(ALARMSOUND_TOPIC, Status.off());
     }
 
     public void scanCode(String code)
