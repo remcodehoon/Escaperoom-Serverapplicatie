@@ -60,4 +60,10 @@ public class SessionController {
         sessionService.performPressButtonActions();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/alarmoff")
+    public ResponseEntity alarmOff() {
+        sessionService.performAlarmCodeCorrectActions();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
