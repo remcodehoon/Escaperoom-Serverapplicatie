@@ -155,6 +155,9 @@ public class BarcodeHelper {
                             scannedCodes.add(barcode);
                             return Integer.sum(session.getBuit(), barcodeValues.get(barcode));
                         }
+                    } else {
+                        scannedCodes.add(barcode);
+                        return session.getBuit();
                     }
                 } else {
                     throw new BarcodeAlreadyScannedException("Barcode [" + barcode + "] is al een keer gescand.");
@@ -165,7 +168,6 @@ public class BarcodeHelper {
         } else {
             throw new NoActiveSessionException();
         }
-        return 0;
     }
 
     /**

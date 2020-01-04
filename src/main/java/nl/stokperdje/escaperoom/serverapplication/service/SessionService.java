@@ -209,7 +209,7 @@ public class SessionService {
             System.out.println(gson.toJson(totaleBuit));
             ws.log(
                     this.session,
-                    "Barcode gescand: Buit gewijzigd van " + session.getBuit() + " naar " + totaleBuit.getTotaleBuit()
+                    "Barcode " + code + " gescand: Buit gewijzigd van " + session.getBuit() + " naar " + totaleBuit.getTotaleBuit()
             );
             session.setBuit(totaleBuit.getTotaleBuit());
             ws.broadcast(BUIT_TOPIC, totaleBuit);
