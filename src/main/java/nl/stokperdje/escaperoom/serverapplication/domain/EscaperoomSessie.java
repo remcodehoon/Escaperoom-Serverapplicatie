@@ -28,6 +28,7 @@ public class EscaperoomSessie {
     @Expose private List<Log> logs = new ArrayList<>();
 
     private boolean lasersCrossed = false;
+    private boolean slotHasAlreadyBeenClosedOnce = false;
 
     public EscaperoomSessie(String teamName) {
         this.teamName = teamName;
@@ -120,4 +121,8 @@ public class EscaperoomSessie {
     public void crossLasers() {
         this.lasersCrossed = true;
     }
+
+    public void closeSlotForFirstTime() { this.slotHasAlreadyBeenClosedOnce = true; }
+
+    public boolean slotHasAlreadyBeenClosedOnce() { return this.slotHasAlreadyBeenClosedOnce; }
 }

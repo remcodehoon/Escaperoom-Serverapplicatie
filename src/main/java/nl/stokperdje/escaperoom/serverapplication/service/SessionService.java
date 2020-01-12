@@ -145,7 +145,9 @@ public class SessionService {
 
             // Tijd aanpassen indien minuten >= 7
             if (this.session.getHours() >= 0 && this.session.getMinutes() >=7) {
-                this.setTime(0, 7, 32);
+                if (this.session.getSeconds() > 32) {
+                    this.setTime(0, 7, 32);
+                }
             }
 
             try {
@@ -329,7 +331,8 @@ public class SessionService {
         if (session != null) {
             ws.log(this.session, "Slot gesloten door controlroom");
 
-            if (session.isActive()) {
+            if (session.isActive() && !session.slotHasAlreadyBeenClosedOnce()) {
+                session.closeSlotForFirstTime();
                 ws.broadcast(PINSLOT_TOPIC, Status.closed());
             }
         }
